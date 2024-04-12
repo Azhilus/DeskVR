@@ -31,7 +31,7 @@ export default function Laptop() {
                 distanceFactor={1.2}
                 rotation-x={-0.25}
             >
-                <iframe src="https://spacedesk-viewer.onrender.com/" />
+                <iframe src="https://desk-vr-viewer.onrender.com/" />
             </Html>
             <Html wrapperClass="laptop"
                 position={[3.1, 0.02, -4.5]} // Adjusted position for the second iframe
