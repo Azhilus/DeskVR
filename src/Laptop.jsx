@@ -5,7 +5,7 @@ import { Environment } from '@react-three/drei';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'; // Import OrbitControls
 import { extend, useThree, useFrame } from '@react-three/fiber';
 import YouTube from 'react-youtube'; // Import react-youtube
-import { MeshBasicMaterial, Euler } from 'three';
+import { MeshBasicMaterial, Euler, TextureLoader } from 'three'; // Import TextureLoader
 
 // Extend OrbitControls to make it compatible with R3F
 extend({ OrbitControls });
@@ -19,11 +19,20 @@ const CameraControls = () => {
     return <orbitControls ref={controls} args={[camera, gl.domElement]} />;
 };
 
-const RoundedPlane = ({ position, size, rotation }) => {
+const RoundedPlane = ({ position, size, rotation, textureUrl }) => { // Pass textureUrl as prop
+    const [texture, setTexture] = useState(null);
+
+    useEffect(() => {
+        if (textureUrl) {
+            const loader = new TextureLoader();
+            loader.load(textureUrl, setTexture);
+        }
+    }, [textureUrl]);
+
     return (
         <mesh position={position} rotation={rotation}>
             <planeGeometry args={[size[0], size[1], 32, 32]} />
-            <meshBasicMaterial color="white" transparent opacity={1} />
+            {texture && <meshBasicMaterial map={texture} />}
         </mesh>
     );
 };
@@ -80,9 +89,9 @@ export default function Laptop() {
             >
                 <iframe src="https://open.spotify.com/embed/playlist/2GhYIVzJQCPZnEcqXBXnIw?utm_source=generator" width={iframeWidth} height={iframeHeight} frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </Html>
-            {isVR && <RoundedPlane position={iframePosition} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} />}
-            {isVR && <RoundedPlane position={[3.1, 0.02, -4.5]} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} />}
-            {isVR && <RoundedPlane position={[0, 0.026, -4.3]} size={[iframeWidth / 272, iframeHeight / 180]} rotation={planeRotation} />}
+            {isVR && <RoundedPlane position={iframePosition} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} textureUrl="../src/1.png" />}
+            {isVR && <RoundedPlane position={[3.1, 0.02, -4.5]} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} textureUrl="../src/2.png" />}
+            {isVR && <RoundedPlane position={[0, 0.026, -4.3]} size={[iframeWidth / 272, iframeHeight / 180]} rotation={planeRotation} textureUrl="../src/3.png" />}
             <CameraControls />
         </XR>
     );
