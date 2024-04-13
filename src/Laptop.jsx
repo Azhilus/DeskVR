@@ -79,7 +79,7 @@ export default function Laptop() {
                 distanceFactor={1.2}
                 rotation-x={-0.25}
             >
-                <YouTube videoId="M2QTwirp-B8" />
+                <YouTube videoId="A75ftYUS2uM" />
             </Html>
             <Html wrapperClass="laptop"
                 position={iframePosition} // Adjusted position for the third iframe
