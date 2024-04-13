@@ -1,9 +1,8 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Html, useGLTF } from "@react-three/drei";
 import { XR, useXR } from '@react-three/xr';
 import { Environment } from '@react-three/drei';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'; // Import OrbitControls
-import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls'; // Import DeviceOrientationControls
 import { extend, useThree, useFrame } from '@react-three/fiber';
 import YouTube from 'react-youtube'; // Import react-youtube
 
@@ -16,11 +15,7 @@ const CameraControls = () => {
     const controls = useRef();
 
     useFrame(() => {
-        if (isPresenting) {
-            // Dispose the OrbitControls when XR is presenting
-            if (controls.current.dispose) controls.current.dispose();
-        } else {
-            // Update the controls when not presenting
+        if (!isPresenting && controls.current) {
             controls.current.update();
         }
     });
@@ -28,8 +23,39 @@ const CameraControls = () => {
     return isPresenting ? null : <orbitControls ref={controls} args={[camera, gl.domElement]} />;
 };
 
+const DeviceOrientationControls = ({ camera }) => {
+    const [orientation, setOrientation] = useState({ alpha: 0, beta: 0, gamma: 0 });
+
+    useEffect(() => {
+        const handleOrientationChange = event => {
+            setOrientation({
+                alpha: event.alpha || 0,
+                beta: event.beta || 0,
+                gamma: event.gamma || 0
+            });
+        };
+
+        window.addEventListener('deviceorientation', handleOrientationChange);
+
+        return () => {
+            window.removeEventListener('deviceorientation', handleOrientationChange);
+        };
+    }, []);
+
+    useFrame(() => {
+        const { beta, gamma } = orientation;
+
+        camera.rotation.x = beta * Math.PI / 180;
+        camera.rotation.y = gamma * Math.PI / 180;
+    });
+
+    return null;
+};
+
 export default function Laptop() {
     const laptop = useGLTF('https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/macbook/model.gltf');
+
+    const { camera } = useThree();
 
     return (
         <XR>
@@ -60,6 +86,7 @@ export default function Laptop() {
                 <iframe src="https://open.spotify.com/embed/playlist/2GhYIVzJQCPZnEcqXBXnIw?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </Html>
             <CameraControls />
+            <DeviceOrientationControls camera={camera} />
         </XR>
     );
 }
