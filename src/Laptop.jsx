@@ -65,6 +65,8 @@ export default function Laptop() {
                 <iframe src="https://open.spotify.com/embed/playlist/2GhYIVzJQCPZnEcqXBXnIw?utm_source=generator" width={iframeWidth} height={iframeHeight} frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </Html>
             <RoundedPlane position={iframePosition} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} />
+            <RoundedPlane position={[3.1, 0.02, -4.5]} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} />
+            <RoundedPlane position={[0, 0.02, -4.5]} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} />
             <CameraControls />
         </XR>
     );
