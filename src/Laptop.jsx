@@ -79,7 +79,8 @@ export default function Laptop() {
                 distanceFactor={1.2}
                 rotation-x={-0.25}
             >
-                <YouTube videoId="M2QTwirp-B8" />
+                <YouTube videoId="
+                " />
             </Html>
             <Html wrapperClass="laptop"
                 position={iframePosition} // Adjusted position for the third iframe
@@ -91,7 +92,7 @@ export default function Laptop() {
             </Html>
             {isVR && <RoundedPlane position={iframePosition} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} textureUrl="/images/1.png" />}
             {isVR && <RoundedPlane position={[3.1, 0.02, -4.5]} size={[iframeWidth / 265, iframeHeight / 172.5]} rotation={planeRotation} textureUrl="/images/2.png" />}
-            {isVR && <RoundedPlane position={[0, 0.026, -4.3]} size={[iframeWidth / 272, iframeHeight / 180]} rotation={planeRotation} textureUrl="/images/3.png" />}
+            {isVR && <RoundedPlane position={[0, 0.026, -4.3]} size={[iframeWidth / 272, iframeHeight / 180]} rotation={planeRotation} textureUrl="/images/3.jpeg" />}
             <CameraControls />
         </XR>
     );
