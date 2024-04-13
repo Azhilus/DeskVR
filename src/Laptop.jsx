@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { Html, useGLTF } from "@react-three/drei";
-import { XR } from '@react-three/xr';
+import { XR, useXR } from '@react-three/xr';
 import { Environment } from '@react-three/drei';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'; // Import OrbitControls
+import { DeviceOrientationControls } from 'three/examples/jsm/controls/DeviceOrientationControls'; // Import DeviceOrientationControls
 import { extend, useThree, useFrame } from '@react-three/fiber';
 import YouTube from 'react-youtube'; // Import react-youtube
 
@@ -11,11 +12,20 @@ extend({ OrbitControls });
 
 const CameraControls = () => {
     const { camera, gl } = useThree();
+    const { isPresenting } = useXR();
     const controls = useRef();
 
-    useFrame(() => controls.current.update());
+    useFrame(() => {
+        if (isPresenting) {
+            // Dispose the OrbitControls when XR is presenting
+            if (controls.current.dispose) controls.current.dispose();
+        } else {
+            // Update the controls when not presenting
+            controls.current.update();
+        }
+    });
 
-    return <orbitControls ref={controls} args={[camera, gl.domElement]} />;
+    return isPresenting ? null : <orbitControls ref={controls} args={[camera, gl.domElement]} />;
 };
 
 export default function Laptop() {
