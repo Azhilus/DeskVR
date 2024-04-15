@@ -7,6 +7,7 @@ import { extend, useThree, useFrame } from '@react-three/fiber';
 import YouTube from 'react-youtube'; // Import react-youtube
 import { MeshBasicMaterial, Euler, TextureLoader } from 'three'; // Import TextureLoader
 
+
 // Extend OrbitControls to make it compatible with R3F
 extend({ OrbitControls });
 
@@ -70,6 +71,7 @@ export default function Laptop() {
                 transform
                 distanceFactor={1.2}
                 rotation-x={-0.25}
+                occlude={true}
             >
                 <iframe src="https://desk-vr-viewer.onrender.com/" />
             </Html>
@@ -78,6 +80,7 @@ export default function Laptop() {
                 transform
                 distanceFactor={1.2}
                 rotation-x={-0.25}
+                occlude={true}
             >
                 <YouTube videoId="A75ftYUS2uM" />
             </Html>
@@ -86,6 +89,7 @@ export default function Laptop() {
                 transform
                 distanceFactor={1.2}
                 rotation-x={-0.25}
+                occlude={true}
             >
                 <iframe src="https://open.spotify.com/embed/playlist/2GhYIVzJQCPZnEcqXBXnIw?utm_source=generator" width={iframeWidth} height={iframeHeight} frameBorder="0" allowFullScreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
             </Html>
